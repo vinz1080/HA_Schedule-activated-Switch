@@ -1,0 +1,24 @@
+blueprint:
+  name: Schedule-activated Switch
+  description: Turn on and off a switch by schedule.
+  domain: automation
+  input:
+    schedule_entity:
+      name: Schedule
+      selector:
+        entity:
+          domain: schedule
+    switch_target:
+      name: Switch
+      selector:
+        target:
+          entity:
+            domain: switch
+
+trigger:
+  platform: state
+  entity_id: !input schedule_entity
+action:
+  - service: homeassistant.turn_{{ trigger.to_state.state }}
+    target: !input switch_target
+mode: single
